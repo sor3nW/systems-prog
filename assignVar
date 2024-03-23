@@ -1,0 +1,5 @@
+
+echo "Number of paramters is: $#"
+echo "Your name is $1 $2"
+echo "make sure you include the parameters when you execute"
+#!/bin/bash

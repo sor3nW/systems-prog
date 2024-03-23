@@ -1,0 +1,5 @@
+John Adams 30 1
+Tim Allen 90 1
+Nicolas Cage 110 5
+Average grade: 76.6667
+Failing grades: 1

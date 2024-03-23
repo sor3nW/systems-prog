@@ -1,0 +1,1 @@
+echo "Your current directory is '$PWD', your home directory is '$HOME'"
