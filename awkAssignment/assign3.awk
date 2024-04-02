@@ -1,70 +1,61 @@
 BEGIN {
-    FS=","
+    callCount = 0
+    FS = ","
+    
 }
-
-# Process each line of input
 {
-    # Initialize variables
-    in_quotes = 0
-    line = ""
-
-    # Loop through each character in the line
-    for (i = 1; i <= length($0); i++) {
-        char = substr($0, i, 1)
-
-        # Toggle in_quotes flag when encountering double quotes
-        if (char == "\"") {
-            in_quotes = 1 - in_quotes
-            next
+    
+    
+    callCount += 1
+    split($2, dateTime, " ")
+    date=substr( dateTime[1], 2, length(dateTime[1])-1)
+    time=substr( dateTime[2], 1, length(dateTime[2])-1)
+    
+    
+    if (date in datesArr){
+        firstCallTime = firstCallTimeArr[date]
+        lastCallTime = lastCallTimeArr[date]
+        if (time < firstCallTime){
+            firstCallTimeArr[date] = time
+            firstCallArr[date] = $0
         }
-
-        # If char is a comma and not within quotes, print line and reset
-        if (char == "," && !in_quotes) {
-            print line
-            line = ""
-            next
+        if (time > lastCallTime){
+            lastCallTimeArr[date] = time
+            lastCallArr[date] = $0
         }
-
-        # Append char to line
-        line = line char
+    } else {
+        firstCallTimeArr[date] = time
+        firstCallArr[date] = $0
+        lastCallTimeArr[date] = time
+        lastCallArr[date] = $0
+        datesArr[date] = date
+    }
+    
+    if ($3 in problemTypes){
+        problemTypes[$3] += 1
+    } else {
+        problemTypes[$3] = 1
     }
 
-    # Print the remaining line
-    print line
-}BEGIN {
-    FS=","
-}
-
-# Process each line of input
-{
-    # Initialize variables
-    in_quotes = 0
-    line = ""
-
-    # Loop through each character in the line
-    for (i = 1; i <= length($0); i++) {
-        char = substr($0, i, 1)
-
-        # Toggle in_quotes flag when encountering double quotes
-        if (char == "\"") {
-            in_quotes = 1 - in_quotes
-            next
-        }
-
-        # If char is a comma and not within quotes, print line and reset
-        if (char == "," && !in_quotes) {
-            print line
-            line = ""
-            next
-        }
-
-        # Append char to line
-        line = line char
+    if ($5 in divisions){
+        divisions[$5] += 1
+    } else {
+        divisions[$5] = 1
     }
-
-    # Print the remaining line
-    print line
 }
 END{
-
+    print "Total calls = " callCount
+    for(date in datesArr){
+        print "\nDate: " date
+        print "\tFirst Call: " firstCallArr[date]
+        print "\tLast Call: " lastCallArr[date]
+    }
+    print "\nPer-Problem Totals: " 
+    for (problemType in problemTypes){
+        print "\t" problemType ": " problemTypes[problemType]
+    }
+    print "\nPer-Division Totals: "
+    for (division in divisions){
+        print "\t" division ": " divisions[division]
+    }
 }

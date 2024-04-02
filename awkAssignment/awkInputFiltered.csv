@@ -1,0 +1,45 @@
+Total calls = 74
+
+Date: 2023-03-17
+	First Call: SAPD-2023-0371443,"2023-03-17 12:52:07","Patrol By","900 RIGSBY",EAST
+	Last Call: SAPD-2023-0371510,"2023-03-17 13:09:52","Criminal Mischief","1200 FLORIDA",EAST
+
+Date: 2023-03-18
+	First Call: SAPD-2023-0378022,"2023-03-18 21:33:09",Forgery,"4500 SCHERTZ RD",NORTH
+	Last Call: SAPD-2023-0378114,"2023-03-18 22:00:20","Burglary Vehicle","6000 W COMMERCE ST",WEST
+
+Date: 2023-03-19
+	First Call: SAPD-2023-0381029,"2023-03-19 16:23:33",Disturbance,"11900 PERRIN BEITEL",NORTH
+	Last Call: SAPD-2023-0381069,"2023-03-19 16:38:02","Welfare Check","13000 VISTA DEL NORTE",PRUE
+
+Per-Problem Totals: 
+	"Welfare Check": 8
+	Information: 5
+	"Disturbance Family": 4
+	"Ordinance Violation": 1
+	"Animal Related": 2
+	Fire: 1
+	"Suspicious Person": 4
+	"Disturbance Loud Music": 4
+	"Shoplifting In Progress": 1
+	"SAPD Non-Emergency Call": 1
+	Theft: 3
+	"Traffic Related": 4
+	Forgery: 2
+	"Patrol By": 3
+	"Criminal Mischief": 2
+	"Theft of Vehicle": 1
+	"Traffic Violation": 1
+	"Burglary Vehicle": 6
+	Threats: 3
+	"Burglary in Progress": 1
+	Disturbance: 13
+	"Assist the Public": 4
+
+Per-Division Totals: 
+	EAST: 5
+	NORTH: 13
+	CENTRAL: 12
+	WEST: 20
+	PRUE: 12
+	SOUTH: 12
