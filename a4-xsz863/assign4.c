@@ -20,10 +20,8 @@ int main() {
             printf("Error creating file.\n");
             return 1;
         }
-        
     }
     fclose(file);
-    
     
     long recordOffset;
     char choice;
@@ -35,16 +33,21 @@ int main() {
         printf("U - update an existing course record\n");
         printf("R - read an existing course record\n");
         printf("D - delete an existing course record\n");
+
+        COURSE course;
+        int courseNum = 0;
+
+        fflush(stdin);
+
         scanf("%c", &choice);
+        choice = toupper(choice);
+
         if (feof(stdin)){
             run = 0;
             break;
         }
-        COURSE course;
-        int courseNum = 0;
-        fopen("courses.dat", "rb+");
-        while (getchar() != '\n');
-        choice = toupper(choice);
+
+        //fopen("courses.dat", "rb+");
         
         switch(choice){
             case 'C':
@@ -67,33 +70,30 @@ int main() {
                 printf("Enter course size: ");
                 scanf("%u", &course.course_Size);
                             
-                recordOffset = (long)(courseNum - 1) * sizeof(COURSE); // Adjusted the offset
+                recordOffset = (long)(courseNum); 
                 fseek(file, recordOffset, SEEK_SET);
+                printf("%ld", ftell(file));
 
-                // Read the existing course data
-                if (fread(&course, sizeof(COURSE), 1, file) == 0) {
+                if (fread(&course, sizeof(COURSE), 1, file) != 1) {
                     fseek(file, recordOffset, SEEK_SET);
                     fwrite(&course, sizeof(COURSE), 1, file);
-                    printf("Course record created successfully 1.\n");
+                    printf("Course record created 1.\n");
                     fflush(file);
-
                     break;
                 }
 
-                // Check if course hours are zero
                 fseek(file, recordOffset, SEEK_SET);
-                if (fread(&course, sizeof(COURSE), 1, file) != 0 && course.course_Hours == 0) {
-                    // Write the modified course data back to the file
+                if (fread(&course, sizeof(COURSE), 1, file) == 1 && course.course_Hours == 0) {
                     fseek(file, recordOffset, SEEK_SET);
                     fwrite(&course, sizeof(COURSE), 1, file);
                     printf("Course record created successfully 2.\n");
                     fflush(file);
-
                     break;
                 } else {
                     printf("ERROR: Course already exists.\n");
                 }
                 fflush(file);
+                while (getchar() != '\n');
                 break;
 
 
@@ -118,10 +118,10 @@ int main() {
                 printf("Enter course size: ");
                 scanf("%u", &course.course_Size);
                 
-                recordOffset = (long)(courseNum) * sizeof(COURSE);
+                recordOffset = (long)(courseNum);
                 fseek(file, recordOffset, SEEK_SET);
 
-                if (fread(&course, sizeof(COURSE), 1, file) != 0 && course.course_Hours != 0){
+                if (fread(&course, sizeof(COURSE), 1, file) == 1 && course.course_Hours != 0){
                     fseek(file, recordOffset, SEEK_SET);
                     fwrite(&course, sizeof(COURSE), 1, file);
                     fflush(file);
@@ -137,20 +137,26 @@ int main() {
                 scanf("%d", &courseNum);   
                 while (getchar() != '\n');
 
-                recordOffset = (long)(courseNum) * sizeof(COURSE);
+                recordOffset = (long)(courseNum);
                 fseek(file, recordOffset, SEEK_SET);
+                printf("%ld\n", ftell(file));
 
                 if (fread(&course, sizeof(COURSE), 1, file) != 1 ){
                     printf("ERROR: course not found 1\n");
-  
-                }else if (fread(&course, sizeof(COURSE), 1, file) != 0 && course.course_Hours == 0){
+                    break;
+                }
+                fseek(file, recordOffset, SEEK_SET);
+                if (fread(&course, sizeof(COURSE), 1, file) == 1 && course.course_Hours == 0){
                     printf("ERROR: course not found 2\n");
+                    break;
                 }else{
+                    fseek(file, recordOffset, SEEK_SET);
                     printf("Course number: %d\n", courseNum);
                     printf("Course name: %s\n", course.course_Name);
                     printf("Course schedule: %s\n", course.course_Sched);
                     printf("Course credit hours: %u\n", course.course_Hours);
                     printf("Course enrollment: %u\n", course.course_Size);
+                    
                 }
                 break;
             case 'D':
@@ -158,12 +164,21 @@ int main() {
                 scanf("%d", &courseNum);
                 
                 while (getchar() != '\n');
-                recordOffset = (long)(courseNum) * sizeof(COURSE);
+                recordOffset = (long)(courseNum);
                 fseek(file, recordOffset, SEEK_SET);
-                if (fread(&course, sizeof(COURSE), 1, file) != 0){
-                    course.course_Hours = 0;
+                if (fread(&course, sizeof(COURSE), 1, file)){
                     fseek(file, recordOffset, SEEK_SET);
-                    fwrite(&course, 1, 100, file);
+                    course.course_Hours = 0;
+                    printf("Course number: %d\n", courseNum);
+                    printf("Course name: %s\n", course.course_Name);
+                    printf("Course schedule: %s\n", course.course_Sched);
+                    printf("Course credit hours: %u\n", course.course_Hours);
+                    printf("Course enrollment: %u\n", course.course_Size);
+                    printf("%ld\n", ftell(file));
+                    fseek(file, recordOffset, SEEK_SET);
+                    printf("%ld\n", ftell(file));
+                    fwrite(&course, sizeof(COURSE), 1, file);
+                    fflush(file);
                 }else{
                     printf("ERROR: course not found\n");
                 }
@@ -173,9 +188,7 @@ int main() {
                 printf("ERROR: invalid option\n");
                 
                 break;
-        }
-        if(run == 0){
-            
+        }        if(run == 0){
             break;
         }
         

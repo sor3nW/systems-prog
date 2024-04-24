@@ -12,31 +12,39 @@ typedef struct {
 } COURSE ;
 
 int main() {
+    FILE *file = fopen("courses.dat", "rb+");
+    if (file == NULL){
+        file = fopen("courses.dat", "wb");
+        if (file == NULL) {
+            printf("Error creating file.\n");
+            return 1;
+        }
+        
+    }
+    fclose(file);
+    char buffer[4096];
+    long recordOffset;
+    char choice;
+    
     int run = 1;
     while (run == 1){
-        FILE *file;
-        file = fopen("courses.dat", "rb+");
-        if (file == NULL){
-            file = fopen("courses.dat", "wb");
-            if (file == NULL) {
-                printf("Error creating file.\n");
-                return 1;
-            }
-            
-        }
-        fclose(file);
 
-        COURSE course;
-        int courseNum = 0;
-        long recordOffset;
-        char szInputBuffer[101];
-        int run = 1;
-        
         printf("Enter one of the following actions or press CTRL-D to exit.\n");
         printf("C - create a new course record\n");
         printf("U - update an existing course record\n");
         printf("R - read an existing course record\n");
         printf("D - delete an existing course record\n");
+
+        
+        unsigned courseNum;
+
+        fopen("courses.dat", "rb+");
+        fflush(stdin);
+
+        fgets(buffer, sizeof(buffer), stdin);
+        strcpy(choice, buffer[0] );
+        strcpy(buffer, "");
+        choice = toupper(choice);
 
 
         if (feof(stdin)){
@@ -45,9 +53,11 @@ int main() {
         }
         
 
-        switch(){
+        switch(choice){
             case 'C':
-                
+                COURSE course;
+
+
                 break;
 
             case 'U':
