@@ -9,6 +9,7 @@ typedef struct {
  unsigned course_Hours ;
  char padding [20];
 } COURSE ;
+
 void printMenu();
 void printCourse(COURSE *course);
 void createCourse();
